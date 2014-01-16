@@ -5,7 +5,7 @@ public class Teacher {
 	String tName;
 	String tPwd;
 	String tEmail;
-	int tMobile;
+	String tMobile;
 	String tSub;
 	String tCity;
 	public String getTregId() {
@@ -32,10 +32,10 @@ public class Teacher {
 	public void settEmail(String tEmail) {
 		this.tEmail = tEmail;
 	}
-	public int gettMobile() {
+	public String gettMobile() {
 		return tMobile;
 	}
-	public void settMobile(int tMobile) {
+	public void settMobile(String tMobile) {
 		this.tMobile = tMobile;
 	}
 	public String gettSub() {

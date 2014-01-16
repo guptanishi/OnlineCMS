@@ -9,31 +9,54 @@
 <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	function check()
+	{
+		var from=document.getElementById("from").value;
+		var to=document.getElementById("to").value;
+		
+		if(from=="" || to=="")
+		{
+			alert("Empty");
+			return false;
+		}
+		return true;
+	}
+</script>
 </head>
 <%!
 	String msg = "";
+	String rr1 = "";
+	String rr2 = "";
 %>
 <%
-	if(request.getParameter("s") != null){
+	if(request.getParameter("err") != null)
+	{
+		msg= request.getParameter("err");
+			if(msg.equals("wrong"))
+			{
+				msg = "Invalid range of Student id";
+			}
+	}
+	
+	else if(request.getParameter("s") != null)
+	{
+	    rr1=request.getParameter("r1");
+	    rr2=request.getParameter("r2");
 		msg = request.getParameter("s");
-		if(msg.equals("invalid")){
-			msg = "details not inserted properly";
-		}
-		else if(msg.equals("exists"))
+		if(msg.equals("invalid"))
 		{
-			msg="Teacher Id already Exists";
+			msg = "Student id already exits from "+rr1+" to "+rr2;
 		}
 	}
-
-
-String admin_name=(String)session.getAttribute("admin_name");
-Boolean validateResult=(Boolean)session.getAttribute("login_success");
-if(validateResult==null)
-{
-	System.out.println("dsfdsf");
-	response.sendRedirect("admin_login.jsp?s=false");
-	
-}
+	String admin_name=(String)session.getAttribute("admin_name");
+	Boolean validateResult=(Boolean)session.getAttribute("login_success");
+	if(validateResult==null)
+	{
+		System.out.println("dsfdsf");
+		response.sendRedirect("admin_login.jsp?s=false");
+	}
+		
 %>
 <body>
 <div id="back" style="width:100%; height:100%; position: fixed; z-index:1;">
@@ -49,11 +72,11 @@ if(validateResult==null)
     </button>
     <a class="navbar-brand" href="#">CMS(online Exams)</a>
 	
-	 <a class="navbar-brand" >Teacher Account</a>
+	 <a class="navbar-brand" >Student Account</a>
   </div>
 
   
- <div class="btn-group" style="float:right; padding-right:60px; margin-top:10px;">
+   <div class="btn-group" style="float:right; padding-right:60px; margin-top:10px;">
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="">
     <%=admin_name %> <span class="caret"></span>
   </button>
@@ -71,38 +94,28 @@ if(validateResult==null)
 <div style=" width:450px; display:inline-block;vertical-align: top; float:left;">
 		 <div class="panel panel-default">
 			  <div class="panel-heading">
-				<h3 class="panel-title"> Fill Teacher's Details</h3> <span id="errormsg" style="position: absolute; color: #ff0000; text-align: center; width: 330px; font-weight: bold; margin-top: -25px; margin-left:80px;"><%=msg %></span>
-				
+				<h3 class="panel-title"> Enter Students Id</h3>
 			  </div>
-			 
 			  <div class="panel-body">
-				
-				<form role="form" action="TeacherRegController" method="post">
-				<div class="form-group">
-					<label for="exampleInputEmail1"> Registration Id </label>
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter ID" name="t_regId" required pattern="[a-zA-Z0-9]{1,20}" maxlength="20" >
+				<p>*Enter range to create students account</p>
+				<form role="form" action="StudentRegController" method="post" onsubmit="return check()">
+				  <div class="form-group">
+					<label for="exampleInputEmail1">Rollno from </label>
+					<input type="text" class="form-control" name="from" id="from">
 				  </div>
 				  <div class="form-group">
-					<label for="exampleInputEmail1">Teacher's Name</label>
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Name" name="t_name" required pattern="[a-zA-Z]{1,30}" maxlength="30">
+					<label for="exampleInputPassword1">Rollno To</label>
+					<input type="text" class="form-control" name="to" id="to">
 				  </div>
-				  <div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
-					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Password" name="t_pwd" required pattern=".{1,32}" maxlength="32">
+				  <div>
+				  <div style="float:left"><button type="submit" class="btn btn-info" >Submit</button></div>
 				  </div>
-				  <div class="form-group">
-					<label for="exampleInputPassword1">Subject</label>
-					<select  class="form-control" name="t_sub" multiple required >
-					  <option value="Java">Java</option>
-					  <option value="C/C++">C/C++</option>
-                      <option value="DBT">DBT</option>
-					</select>
+				  <div style="position: absolute;float:left;line-height: 30px; color: #ff0000; text-align: center; width: 400px; font-weight: bold;"><%=msg %></div>
 				  </div>
-				  
-				  <button type="submit" class="btn btn-info">Submit</button>
 				</form>
 				
 			  </div>
+			  
 		       
 		  
 		 </div>
@@ -122,19 +135,15 @@ if(validateResult==null)
 				<h3 class="panel-title">Import Teacher's  Details</h3>
 			  </div>
 			  <div class="panel-body">
-				<form role="form" action="TeacherRegCsv"  enctype="multipart/form-data" method="post">
+				<form role="form">
 					<h4>CSV File Import</h4>
-					<div class="radio" style="display:none;">
-					  <label>
-					  <input type="hidden" name="option" id="optionsRadios1" value="csv" required>
-					  </label>
-					</div>
 				   <div class="form-group">
 					<label for="exampleInputFile">File input</label>
-					<input type="file" id="exampleInputFile" name="ufile" required>
+					<input type="file" id="exampleInputFile">
 					
 				  </div>
-				    <button type="submit" class="btn btn-info">Submit</button>
+				    <button type="submit" class="btn btn-info" >Submit</button>
+				    
 				</form>
 				
 			  </div>
@@ -146,11 +155,11 @@ if(validateResult==null)
 
 
 </div>
-
 <script src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 </body>
-<script>
-$("#errormsg").delay(5000).fadeOut(100);
-</script>
+<% 	msg = ""; 
+	rr1="";
+	rr2="";%>
+	
 </html>

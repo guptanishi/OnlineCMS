@@ -23,6 +23,8 @@
 			msg = "Please Login First";
 		}
 	}
+
+  
 %>
 <script type="text/javascript" >
 function getUrlVars() {
@@ -87,7 +89,7 @@ function check()
 	<div   class="tab-pane fade in active" id="home" style="width:350px; height:211px; margin:0px auto;  margin-left:37px;" >
 		<div id="back2" style="position:absolute; box-shadow: 0px 0px 20px #222222; width:350px; height:211px; margin:-15px;opacity:0.7; background-color:#cfcfcf; padding:0px; z-index:-1; border-radius:10px;  "></div> 
 		<div style=" background:url('images/admin_login.gif'); background-size:150px 50px; background-repeat:no-repeat; height:50px; max-height:70px; border-radius:30px; max-width:200px; margin-top:30px;margin-left:-1px "></div>
-		<form action="">
+		<form action="StudentLoginController" method="post">
 			<div class="input-group"  style="width:310px; margin:10px;">
 				  <span class="input-group-addon"><div style="background-image: url('images/user_icon.png'); background-size: 20px 20px; height: 20px; width: 20px;"></div></span>
 				  <input type="text" class="form-control" placeholder="Student Id" name="uname">

@@ -1,7 +1,6 @@
 package server;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +11,10 @@ import javax.servlet.http.Part;
 
 import db.DBConnection;
 
-@WebServlet("/TeacherRegCsv")
+
+@WebServlet("/StudentRegCsv")
 @MultipartConfig
-public class TeacherRegCsv extends HttpServlet {
+public class StudentRegCsv extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request,
@@ -22,28 +22,23 @@ public class TeacherRegCsv extends HttpServlet {
 		final Part filePart = request.getPart("ufile");
 		String fileName = getFileName(filePart);
 		fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
-		String fileExt = fileName.substring(fileName.length() - 3);
+		//String fileExt = fileName.substring(fileName.length() - 3);
 		String serverPath = getServletContext().getRealPath("");
-		if (fileExt.equals("csv")) {
 
-			serverPath = serverPath + "/" + "file.csv";
-		} else {
-			serverPath = serverPath + "/" + "file.xml";
-		}
+		serverPath = serverPath + "/" + "file.csv";
 
 		System.out.println(serverPath);
 
 		filePart.write(serverPath);
 
-		if (request.getParameter("option").equals("csv")) {
-
-			int result = DBConnection.loadCSV(serverPath,"teacher");
+		if (serverPath != null) {
+			int result = DBConnection.loadCSV(serverPath,"student");
 			if (result == 1) {
-				// File doomedFile = new File (serverPath);
-				// doomedFile.delete();
-				response.sendRedirect("dashboard.jsp?status=t_success");
+
+				response.sendRedirect("dashboard.jsp?status=s_success");
 			}
 		}
+
 	}
 
 	private String getFileName(Part part) {
@@ -59,5 +54,4 @@ public class TeacherRegCsv extends HttpServlet {
 		}
 		return "";
 	}
-
 }

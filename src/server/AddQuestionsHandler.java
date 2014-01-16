@@ -1,5 +1,6 @@
 package server;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -7,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import com.QuestionData;
 
@@ -23,7 +26,9 @@ public class AddQuestionsHandler extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String teacherid = "1001A";
+		
+		HttpSession session= request.getSession();
+        int teacherid = Integer.parseInt((String)session.getAttribute("t_id"));   
 		String qtype = request.getParameter("qtype");
 		String subject =  request.getParameter("subject");
 		String que = request.getParameter("que");
@@ -34,6 +39,11 @@ public class AddQuestionsHandler extends HttpServlet {
 		String correct = request.getParameter("correct");
 		String hardness = request.getParameter("hardness");
 		String marks = request.getParameter("marks");
+		Boolean imgstatus = false;
+		String path = getServletContext().getRealPath("");
+		File folder = new File(path+"\\que_images");
+		if(!folder.exists())
+			folder.mkdir();
 		
 		if(qtype != null && subject != null && que != null && correct != null && hardness != null && marks != null){
 			if(qtype.equals("tf")){
@@ -58,7 +68,13 @@ public class AddQuestionsHandler extends HttpServlet {
 				
 				int status = db.DBConnection.insertQuestion(teacherid, qd);
 				if(status != 0){
-					response.sendRedirect("AddQuestions.jsp?stat=added");
+					path += "\\que_images\\Q1.jpg";
+					imgstatus = process.TextToImage.convert(que,path);
+					if(imgstatus){
+						response.sendRedirect("AddQuestions.jsp?stat=added");
+					}else{
+						response.sendRedirect("AddQuestions.jsp?stat=failed");
+					}
 				}else{
 					response.sendRedirect("AddQuestions.jsp?stat=failed");
 				}

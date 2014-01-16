@@ -52,6 +52,7 @@
 	}
 </script>
 </head>
+<% String teacher_name=(String)session.getAttribute("t_name") ;%>
 <body style="overflow-y: scroll;">
 <div id="back" style="width:100%; height:100%; z-index:1; min-width: 500px;">
 	<nav id="navibar" class="navbar navbar-default" role="navigation" >
@@ -69,11 +70,19 @@
 	  </div>
 
 	  
-	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="background-color:#F1EEEE">
-		<ul class="nav navbar-nav navbar-right">
-		  <li><a href="#" style="color:#000000" >Home</a></li>
-		</ul>
-	  </div><!-- /.navbar-collapse -->
+	 <div class="btn-group" style="float:right; padding-right:60px; margin-top:10px;">
+	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="">
+	    <%=teacher_name %> <span class="caret"></span>
+	  </button>
+	  <form action="Logout" method="post" id="logout">
+	  	<input type="hidden" name="user" value="teacher" />
+	  </form>
+	  <ul class="dropdown-menu" role="menu" style="width:60px; ">
+	    <li><a href="#">Edit Account</a></li>
+	    <li><a href="#" onclick="logout.submit();">Logout</a></li>
+	  </ul>
+    </div>
+	  
 	</nav>
 	<div style="background-color:#ffffff; width:800px; border: 1px solid #000000; margin:50px auto; padding:5px; box-shadow:0px 0px 20px #333333; border-radius:5px;">
 		<form id="questionform" action="AddQuestionsHandler" method="post">

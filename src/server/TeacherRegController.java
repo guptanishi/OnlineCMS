@@ -11,6 +11,9 @@ import com.Teacher;
 
 import db.DBConnection;
 
+/**
+ * Servlet implementation class TeacherRegController
+ */
 @WebServlet("/TeacherRegController")
 public class TeacherRegController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,33 +29,45 @@ public class TeacherRegController extends HttpServlet {
 		{
 			if(t_sub.equals(""))
 			{
-				t_sub=teacher_sub[i];
+			t_sub=teacher_sub[i];
+			
 			}
-			else
-			{
+			else{
 				t_sub=t_sub+"_"+teacher_sub[i];
 			}
 		}
 		
-		Teacher teacher=new Teacher();
-		teacher.setTregId(teacher_regId);
-		teacher.settName(teacher_name);
-		teacher.settPwd(teacher_pwd);
-		teacher.settSub(t_sub);
-		teacher.settEmail("");
-		teacher.settMobile(0);
-		teacher.settCity("");
-		teacher.settState("");
+		if(teacher_regId!=null)
+		{
+			boolean flag=DBConnection.checkTeacherId(teacher_regId);
+			if(flag)
+			{
+				response.sendRedirect("teacher_registration.jsp?s=exists");
+				return;
+			}
+		}
 		
-		int result=DBConnection.insertQuery(teacher);
+		
+		Teacher teacher=new Teacher();
+		 teacher.setTregId(teacher_regId);
+		 teacher.settName(teacher_name);
+		 teacher.settPwd(teacher_pwd);
+		 teacher.settSub(t_sub);
+		 teacher.settEmail("");
+		 teacher.settMobile("");
+		 teacher.settCity("");
+		 teacher.settState("");
+		
+		int result=DBConnection.insertQueryTeacher(teacher);
 		
 		if(result==1)
 		{
-			response.sendRedirect("dashboard.jsp");
+			
+			response.sendRedirect("dashboard.jsp?status=t_success");
 		}
-		else
-		{
-			response.sendRedirect("teacher_registraion.jsp?s=invalid");
+		else{
+			
+			response.sendRedirect("teacher_registration.jsp?s=invalid");
 		}
 	}
 

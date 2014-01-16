@@ -9,7 +9,29 @@
 <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
+<script>
+function closeDiv()
+{
+	document.getElementById('infoDiv').style.display="none";
+}
+</script>
 </head>
+<%!
+	String msg = "";
+%>
+<%
+
+Boolean validateResult=(Boolean)session.getAttribute("s");
+if(validateResult !=null && validateResult==true)
+{
+	System.out.println("dsfdsf");
+	response.sendRedirect("admin_login.jsp?s=false");
+	
+}
+String admin_name=(String)session.getAttribute("admin_name");
+String reg=request.getParameter("status");
+
+%>
 <body>
 <div id="back" style="width:100%; height:100%; position: fixed; z-index:1;">
 
@@ -30,15 +52,33 @@
   
   <div class="btn-group" style="float:right; padding-right:60px; margin-top:10px;">
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="">
-    admin <span class="caret"></span>
+    <%=admin_name %> <span class="caret"></span>
   </button>
+  <form action="Logout" method="post" id="logout">
+  	<input type="hidden" name="user" value="admin" />
+  </form>
   <ul class="dropdown-menu" role="menu" style="width:60px; ">
     <li><a href="#">Edit Account</a></li>
-    <li><a href="#">Logout</a></li>
-    
+    <li><a href="#" onclick="logout.submit();">Logout</a></li>
   </ul>
 </div>
 </nav>
+<%if(reg!=null)
+{
+if(reg.equals("t_success"))
+{
+	%>
+	<div  id="infoDiv" class="alert alert-success"  style="font-size: 18px;line-height: 1.5;"> <center>Teachers Registration Successfully done!</center><span id="cross" style="float:right ;position: absolute;top: 70px;right: 15px; " onclick="closeDiv()" ><h3>X</h3></span></div>
+	<%
+}
+else if(reg.equals("s_success"))
+{
+	%>
+	<div  id="infoDiv" class="alert alert-success"  style="font-size: 18px;line-height: 1.5;"> <center>Student accounts created successfully!</center><span id="cross" style="float:right ;position: absolute;top: 70px;right: 15px; " onclick="closeDiv()" ><h3>X</h3></span></div>
+	<%
+}
+} %>
+ 
 <div style=" margin:0px auto; padding:50px; min-width:1000px; max-width:1000px; padding:20px;">
 	<div style="width:220px;  display:inline-block; min-width:220px" >
 		
@@ -53,6 +93,7 @@
 		</div>
 		
 	</div>
+	
 	
 	<div style=" width:530px; display:inline-block;vertical-align: top">
 		 <div class="panel panel-default">
@@ -87,10 +128,10 @@
 	
 	<div style="width:200px;display:inline-block; float:right">
 		<div class="list-group">
-		  <a href="#" class="list-group-item ">
+		  <a href="teacher_registration.jsp" class="list-group-item ">
 			Create Teacher
 		  </a>
-		  <a href="#" class="list-group-item">Create Student</a>
+		  <a href="createStudent.jsp" class="list-group-item">Create Student</a>
 		  <a href="#" class="list-group-item">Create Exam</a>
 		  <a href="#" class="list-group-item">Display Exam</a>
 		  <a href="#" class="list-group-item">Notification  <span class="badge">14</span></a>

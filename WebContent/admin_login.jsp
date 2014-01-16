@@ -12,12 +12,36 @@
 <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	function lcheck(){
+		setTimeout("check()", 100);
+	}
 
+	function check(){
+		var obj = new XMLHttpRequest();
+		obj.open("GET", "CheckLogin.jsp", true);
+		obj.onreadystatechange = function(){
+			if(obj.readyState == 4 && obj.status == 200){
+					var stat = obj.responseText;
+					if(stat == "Y"){
+						window.top.location = "dashboard.jsp";
+					}
+			}
+		}
+		obj.send();
+	}
+</script>
 </head>
 <%!
 	String msg = "";
 %>
 <%
+		Boolean validateResult=(Boolean)session.getAttribute("login_success");
+		if(validateResult != null){
+			response.sendRedirect("dashboard.jsp");
+			return;
+		} 
+
 	if(request.getParameter("s") != null){
 		msg = request.getParameter("s");
 		if(msg.equals("invalid")){
@@ -27,7 +51,7 @@
 		}
 	}
 %>
-<body onresize="hadj()" onload="display()">
+<body onresize="hadj()" onload="display(); lcheck();">
 <div id="back" style="width:100%; height:100%; position: fixed; display:none; z-index:1; min-width: 500px;">
 <nav id="navibar" class="navbar navbar-default" role="navigation" style="display:none;" >
   <!-- Brand and toggle get grouped for better mobile display -->
