@@ -7,49 +7,67 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class StudentDetailsHandler
- */
+import db.DBConnection;
+
 @WebServlet("/StudentDetailsHandler")
 public class StudentDetailsHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public StudentDetailsHandler() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	public StudentDetailsHandler() {
+		super();
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		System.out.println("hiiii");
+		String sId =  request.getParameter("sid");
 		
-		String fname=request.getParameter("fname");
-		String lname=request.getParameter("lname");
-		String fathersName=request.getParameter("fatherName");
-		String pwd=request.getParameter("password");
-		String dob=request.getParameter("dob");
-		String mobile=request.getParameter("mobile");
-		String address=request.getParameter("address");
-		String city=request.getParameter("city");
-		String state=request.getParameter("state");
-		
-		System.out.println(fname+lname+fathersName+pwd+dob+mobile+address+city+state);
-		
-		
+		String fname = request.getParameter("fname");
+		String lname = request.getParameter("lname");
+		String newpwd = request.getParameter("newPwd");
+		String conpwd = request.getParameter("conPwd");
+		String dob = request.getParameter("dob");
+		String email = request.getParameter("email");
+		String mobile = request.getParameter("mobile");
+		String address = request.getParameter("address");
+		String city = request.getParameter("city");
+		String state = request.getParameter("state");
+
 		
 		
+		if (fname == null || fname.isEmpty() || lname == null || dob.isEmpty()
+				|| dob == null || mobile.isEmpty() || mobile == null) {
+			response.sendRedirect("studentDetails.jsp?s=invalid");
+		}
+		if (newpwd != null && !newpwd.equals("") && conpwd != null
+				&& !conpwd.equals("")) {
+			if (!newpwd.equals(conpwd)) {
+				response.sendRedirect("studentDetails.jsp?s=fail");
+			}
+		}
+
+		else{
+			int sid=Integer.parseInt(sId);
+			System.out.println("hii");
+			int flag= DBConnection.updateStudentDetails(sid,fname,lname,newpwd,dob,email,mobile,address,city,state);
+			
+			if(flag==1)
+			{
+				response.sendRedirect("studentDashBoard.jsp");
+				
+			}
+			else{
+				response.sendRedirect("sudentDetails.jsp?s=queryFail");
+			}
+		}
+		
+		//System.out.println(fname + lname + pwd + dob + mobile + address + city
+				//+ state);
+
 	}
 
 }

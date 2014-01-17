@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import db.DBConnection;
 
 @WebServlet("/TeacherLoginController")
@@ -26,14 +25,18 @@ public class TeacherLoginController extends HttpServlet {
 		    
 		    Boolean validateResult=(Boolean)session.getAttribute("login_success");
 			if(validateResult !=null && validateResult==true){
-				response.sendRedirect("teacherLogin.jsp?s=false");
+				response.sendRedirect("Login.jsp?t=false");
 				return;
 			}
 		    
 			if (teacher_id == null || teacher_id.isEmpty() || teacher_pwd == null
 					|| teacher_pwd.isEmpty()) {
-				response.sendRedirect("teacherLogin.jsp?s=false");
+				response.sendRedirect("Login.jsp?t=false");
 			} else {
+				if(!teacher_id.matches(".*\\d.*")){
+					response.sendRedirect("Login.jsp?t=invalid");
+					return;
+				}
 				int id=Integer.parseInt(teacher_id);
 				String sql = "select * from teacher";
 				ResultSet rs = DBConnection.selectQuery(sql);
@@ -44,37 +47,22 @@ public class TeacherLoginController extends HttpServlet {
 						String pwd= rs.getString("tpwd");
 						
 						int tid= rs.getInt("tid");
-						if(tid==id && pwd.equals(teacher_pwd))
-						{
+						if(tid==id && pwd.equals(teacher_pwd)){
 							session.setAttribute("t_name",name );
 							session.setAttribute("t_id", tid);
 							result=true;	
 						}	
 					}
 					
-					if(result)
-					{   
-						
+					if(result){   
 						response.sendRedirect("AddQuestions.jsp");
-						
 					}
 					else{
-						
 						response.sendRedirect("Login.jsp?t=invalid");
-						//String status="invalid";
-						//request.setAttribute("status",status);
-						
-						
 					}
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-					
-
-			}
-	
-		
+			}		
 	}
-
 }

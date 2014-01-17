@@ -5,7 +5,6 @@ public class Student {
 	  int sId;
 	  String fname;
 	  String lname;
-	  String fathername;
 	  String pwd;
 	  String dob;
 	  String email;
@@ -26,10 +25,6 @@ public class Student {
 
 	public void setLname(String lname) {
 		this.lname = lname;
-	}
-
-	public void setFathername(String fathername) {
-		this.fathername = fathername;
 	}
 
 	public void setPwd(String pwd) {
@@ -69,9 +64,7 @@ public class Student {
 	public String getLname() {
 		return lname;
 	}
-	public String getFathername() {
-		return fathername;
-	}
+	
 	public String getPwd() {
 		return pwd;
 	}

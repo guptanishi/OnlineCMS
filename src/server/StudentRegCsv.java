@@ -19,26 +19,30 @@ public class StudentRegCsv extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		final Part filePart = request.getPart("ufile");
+		final Part filePart = request.getPart("tfile");
 		String fileName = getFileName(filePart);
 		fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
 		//String fileExt = fileName.substring(fileName.length() - 3);
 		String serverPath = getServletContext().getRealPath("");
 
-		serverPath = serverPath + "/" + "file.csv";
+		serverPath = serverPath + "/" + "file1.csv";
 
 		System.out.println(serverPath);
 
 		filePart.write(serverPath);
-
+        if(filePart!=null)
+        {
 		if (serverPath != null) {
 			int result = DBConnection.loadCSV(serverPath,"student");
 			if (result == 1) {
 
 				response.sendRedirect("dashboard.jsp?status=s_success");
 			}
-		}
-
+			else{
+				response.sendRedirect("createStudent.jsp?s=fail");
+			}
+		 }
+        }
 	}
 
 	private String getFileName(Part part) {

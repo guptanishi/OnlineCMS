@@ -5,14 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login</title>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
 <%!
 	String msg = "";
+	String msg1 = "";
 %>
 <%
 	if(request.getParameter("t") != null){
@@ -24,8 +23,36 @@
 		}
 	}
 
-  
+	if(request.getParameter("s") != null){
+		msg1 = request.getParameter("s");
+		if(msg1.equals("invalid")){
+			msg1 = "Username Password Mismatch!";
+		}else if(msg1.equals("false")){
+			msg1 = "Please Login First";
+		}
+	}
 %>
+<script type="text/javascript">
+	function lcheck(){
+		setTimeout("lchk()", 100);
+	}
+
+	function lchk(){
+		var obj = new XMLHttpRequest();
+		obj.open("GET", "CheckUserType.jsp", true);
+		obj.onreadystatechange = function(){
+			if(obj.readyState == 4 && obj.status == 200){
+					var stat = obj.responseText;
+					if(stat == "T"){
+						window.top.location = "AddQuestions.jsp";
+					}else if(stat == "S"){
+						window.top.location = "studentDashBoard.jsp";
+					}
+			}
+		}
+		obj.send();
+	}
+</script>
 <script type="text/javascript" >
 function getUrlVars() {
     var vars = {};
@@ -54,7 +81,7 @@ function check()
 }
 </script>
 </head>
-<body onload="check()">
+<body onload="check(); lcheck();">
 
 <div id="back" style="width:100%; height:100%; position: fixed; z-index:1; min-width: 1000px;">
 <nav class="navbar navbar-default" role="navigation" style="min-width: 1000px;" >
@@ -86,7 +113,8 @@ function check()
   </ul>
   
 <div class="tab-content" style="border:1px solid #ddd;width:400px;  border-radius:5px;">
-	<div   class="tab-pane fade in active" id="home" style="width:350px; height:211px; margin:0px auto;  margin-left:37px;" >
+	<div class="tab-pane fade in active" id="home" style="width:350px; height:211px; margin:0px auto;  margin-left:37px;" >
+		<div style="position: absolute; color: #ff0000; text-align: center; width: 330px; font-weight: bold;"><%=msg1 %></div>
 		<div id="back2" style="position:absolute; box-shadow: 0px 0px 20px #222222; width:350px; height:211px; margin:-15px;opacity:0.7; background-color:#cfcfcf; padding:0px; z-index:-1; border-radius:10px;  "></div> 
 		<div style=" background:url('images/admin_login.gif'); background-size:150px 50px; background-repeat:no-repeat; height:50px; max-height:70px; border-radius:30px; max-width:200px; margin-top:30px;margin-left:-1px "></div>
 		<form action="StudentLoginController" method="post">
@@ -105,7 +133,7 @@ function check()
 
 			<div style="text-align:right; width:310px;">
 				<div>
-					<div><input type="button"  class="btn btn-info" value="submit" /></div>
+					<div><input type="submit"  class="btn btn-info" value="submit" /></div>
 				</div>
 			</div>
 		</form>
@@ -113,7 +141,7 @@ function check()
 	
 	
 	<div class="tab-pane fade" id="profile" style="width:350px; height:211px; margin:10px auto; margin-left:35px;">
-<div style="position: absolute; color: #ff0000; text-align: center; width: 330px; font-weight: bold;"><%=msg %></div>
+		<div style="position: absolute; color: #ff0000; text-align: center; width: 330px; font-weight: bold;"><%=msg %></div>
 		<div id="back2" style="position:absolute;box-shadow: 0px 0px 20px #222222; width:350px; height:211px; margin:-10px; opacity:0.7; background-color:#cfcfcf; padding:0px; z-index:-1; border-radius:10px;  "></div> 
 		<div style=" background:url('images/admin_login.gif'); background-size:150px 50px; background-repeat:no-repeat; height:50px; max-height:70px; border-radius:30px; max-width:200px; margin-top:30px;margin-left:-1px "></div>
 		<form action="TeacherLoginController" method="post">
@@ -137,10 +165,12 @@ function check()
 			</div>
 		</form>
 	</div>
-</div>	
+</div>
+</div>
 </body>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script src="js/tab.js" type="text/javascript"></script>
 <%msg=""; %>
+<%msg1=""; %>
 </html>

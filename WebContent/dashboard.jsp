@@ -68,13 +68,13 @@ String reg=request.getParameter("status");
 if(reg.equals("t_success"))
 {
 	%>
-	<div  id="infoDiv" class="alert alert-success"  style="font-size: 18px;line-height: 1.5;"> <center>Teachers Registration Successfully done!</center><span id="cross" style="float:right ;position: absolute;top: 70px;right: 15px; " onclick="closeDiv()" ><h3>X</h3></span></div>
+	<div  id="infoDiv" class="alert alert-success"  style="font-size: 18px;line-height: 1.5;"> <center>Teachers Registration Successfully done!</center><span id="cross" style="float:right ;position: absolute;top: 70px; right: 15px; cursor:pointer;" onclick="closeDiv()" ><h3>X</h3></span></div>
 	<%
 }
 else if(reg.equals("s_success"))
 {
 	%>
-	<div  id="infoDiv" class="alert alert-success"  style="font-size: 18px;line-height: 1.5;"> <center>Student accounts created successfully!</center><span id="cross" style="float:right ;position: absolute;top: 70px;right: 15px; " onclick="closeDiv()" ><h3>X</h3></span></div>
+	<div  id="infoDiv" class="alert alert-success"  style="font-size: 18px;line-height: 1.5;"> <center>Student accounts created successfully!</center><span id="cross" style="float:right ;position: absolute;top: 70px;right: 15px;  cursor:pointer;" onclick="closeDiv()" ><h3>X</h3></span></div>
 	<%
 }
 } %>

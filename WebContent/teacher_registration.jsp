@@ -4,11 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Teacher Registration</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css">
 <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
+<script>
+function closeDiv()
+{
+	document.getElementById('errormsg').style.display="none";
+}
+</script>
 </head>
 <%!
 	String msg = "";
@@ -17,11 +23,11 @@
 	if(request.getParameter("s") != null){
 		msg = request.getParameter("s");
 		if(msg.equals("invalid")){
-			msg = "details not inserted properly";
+			msg = "File contains duplicate Reg. Id";
 		}
 		else if(msg.equals("exists"))
 		{
-			msg="Teacher Id already Exists";
+			msg="Teacher RegistrationId already Exists";
 		}
 	}
 
@@ -66,12 +72,15 @@ if(validateResult==null)
   </ul>
  </div>
 </nav>
-
+<%if(!msg.equals(""))
+{%>
+<div  id="errormsg" class="alert alert-danger"  style="font-size: 18px;line-height: 1.5;"> <center><%=msg %></center><span id="cross" style="float:right ;position: absolute;top: 70px;right: 15px; " onclick="closeDiv()" ><h3 style="cursor:pointer;">X</h3></span></div>
+<%} %>
 <div style=" margin:0px auto; padding:50px; min-width:1000px; max-width:1000px; padding:20px;">
 <div style=" width:450px; display:inline-block;vertical-align: top; float:left;">
 		 <div class="panel panel-default">
 			  <div class="panel-heading">
-				<h3 class="panel-title"> Fill Teacher's Details</h3> <span id="errormsg" style="position: absolute; color: #ff0000; text-align: center; width: 330px; font-weight: bold; margin-top: -25px; margin-left:80px;"><%=msg %></span>
+				<h3 class="panel-title"> Fill Teacher's Details</h3>
 				
 			  </div>
 			 
@@ -84,7 +93,7 @@ if(validateResult==null)
 				  </div>
 				  <div class="form-group">
 					<label for="exampleInputEmail1">Teacher's Name</label>
-					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Name" name="t_name" required pattern="[a-zA-Z]{1,30}" maxlength="30">
+					<input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Name" name="t_name" required pattern="[a-zA-Z ]{1,30}" maxlength="30">
 				  </div>
 				  <div class="form-group">
 					<label for="exampleInputPassword1">Password</label>

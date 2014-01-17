@@ -24,12 +24,17 @@ public class Logout extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		if(request.getParameter("user").equals("admin"))
-			response.sendRedirect("admin_login.jsp");
-		else if (request.getParameter("user").equals("teacher"))
-			response.sendRedirect("Login.jsp?t=");
-		else if(request.getParameter("user").equals ("student"))
-			response.sendRedirect("Login.jsp?s=");
+		String usercheck = request.getParameter("user");
+		if(usercheck != null){
+			if(usercheck.equals("admin"))
+				response.sendRedirect("admin_login.jsp");
+			else if (usercheck.equals("teacher"))
+				response.sendRedirect("Login.jsp?t=");
+			else if(usercheck.equals ("student"))
+				response.sendRedirect("Login.jsp?s=");
+		}else{
+			response.sendRedirect("Login.jsp");
+		}
 	}
 
 }
