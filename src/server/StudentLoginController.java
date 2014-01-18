@@ -23,14 +23,13 @@ public class StudentLoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String student_name = request.getParameter("sid");
+		String student_name = request.getParameter("uname");
 		String student_pwd = request.getParameter("pwd");
 		boolean result = false;
-          int flag=0;
-          int sId = 0;
+        int flag=0;
 		HttpSession session = request.getSession();
 
-		if (student_name == null || 
+		if (student_name == null || student_name.isEmpty() || 
 				 student_pwd == null || student_pwd.isEmpty()) {
 			response.sendRedirect("Login.jsp?s=false");
 		} else {
@@ -39,25 +38,21 @@ public class StudentLoginController extends HttpServlet {
 				return;
 			}
 			int sid=Integer.parseInt(student_name);
-			String sql = "select * from student";
+			String sql = "select * from student where sid='"+student_name+"'";
 			ResultSet rs = DBConnection.selectQuery(sql);
 			try {
-				while (rs.next()) {
-					 sId = rs.getInt("SID");
-					System.out.println(sId);
-					String spwd = rs.getString("PASSWORD");
-
-					if(sId==sid && spwd.equals(student_pwd)) {
+				if(rs.next()) {
+					if(rs.getString("PASSWORD").equals(student_pwd)) {
 						session.setAttribute("sId", sid);
 						session.setAttribute("sPwd", student_pwd);
 						result = true;
+						
 						String sfName = rs.getString("SFNAME");
 						String slName = rs.getString("SLNAME");
-						if(sfName==null && slName==null ){
+						if(sfName==null && slName==null )
 							flag=0;
-						}else{
+						else
 							flag=1;
-						}
 					}
 				}
 

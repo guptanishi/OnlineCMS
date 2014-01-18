@@ -77,23 +77,34 @@ public class DBConnection {
 	public static int insertQuestion(int tid, QuestionData qd) {
 		int flag = 0;
 
-		String sql = "INSERT INTO QBANK(tid, qid, sub, type, statement, imgpath, opt1, opt2, opt3, opt4, ans, qlevel, marks) VALUES (?,que_id.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO QBANK(tid, sub, type, statement, imgpath, opt1, opt2, opt3, opt4, ans, qlevel, marks) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			ps = con.prepareStatement(sql);
-
+			//T S
+			//E O
+			//M L
+			//P U
+			//O T
+			//R I
+			//A O
+			//R N
+			//Y
+			//int mytimestamp = (int) (System.currentTimeMillis() / 1000L);	
 			ps.setInt(1, tid);
-
-			ps.setString(3, qd.getSubject());
-			ps.setString(4, qd.getQtype());
-			ps.setString(5, qd.getQue());
-			ps.setString(6, "que1jpg");
-			ps.setString(7, qd.getOpt1());
-			ps.setString(8, qd.getOpt2());
-			ps.setString(9, qd.getOpt3());
-			ps.setString(10, qd.getOpt4());
-			ps.setString(11, qd.getCorrect());
-			ps.setInt(12, qd.getHardness());
-			ps.setInt(13, qd.getMarks());
+			//---------------------
+			//ps.setInt(2,Math.abs(mytimestamp)); //TEMPORARY SOLUTION
+			//---------------------
+			ps.setString(2, qd.getSubject());
+			ps.setString(3, qd.getQtype());
+			ps.setString(4, qd.getQue());
+			ps.setString(5, "que1jpg");
+			ps.setString(6, qd.getOpt1());
+			ps.setString(7, qd.getOpt2());
+			ps.setString(8, qd.getOpt3());
+			ps.setString(9, qd.getOpt4());
+			ps.setString(10, qd.getCorrect());
+			ps.setInt(11, qd.getHardness());
+			ps.setInt(12, qd.getMarks());
 			flag = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,7 +130,6 @@ public class DBConnection {
 			ps.setString(10, stu.getState());
 			flag = ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -137,7 +147,6 @@ public class DBConnection {
 			ps.setString(2, pwd);
 			flag = ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

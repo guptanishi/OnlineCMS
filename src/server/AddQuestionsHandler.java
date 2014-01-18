@@ -25,9 +25,14 @@ public class AddQuestionsHandler extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		HttpSession session= request.getSession();
-        int teacherid = Integer.parseInt((String)session.getAttribute("t_id"));   
+		Integer tid = (Integer)session.getAttribute("t_id");
+		if(tid == null){
+			response.sendRedirect("Login.jsp?t=false");
+			return;
+		}
+        int teacherid = tid.intValue();   
 		String qtype = request.getParameter("qtype");
 		String subject =  request.getParameter("subject");
 		String que = request.getParameter("que");
