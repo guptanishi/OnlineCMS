@@ -71,8 +71,9 @@ public class AddQuestionsHandler extends HttpServlet {
 				qd.setMarks(Integer.parseInt(marks));
 				
 				int status = db.DBConnection.insertQuestion(teacherid, qd);
+				String qid = db.DBConnection.getMaxQid();
 				if(status != 0){
-					path += "\\que_images\\Q1.jpg";
+					path += "\\que_images\\"+qid+".jpg";
 					imgstatus = process.TextToImage.convert(que,path);
 					if(imgstatus){
 						response.sendRedirect("AddQuestions.jsp?stat=added");
