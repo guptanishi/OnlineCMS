@@ -24,7 +24,6 @@ function closeDiv()
 Boolean validateResult=(Boolean)session.getAttribute("s");
 if(validateResult !=null && validateResult==true)
 {
-	System.out.println("dsfdsf");
 	response.sendRedirect("admin_login.jsp?s=false");
 	
 }
@@ -86,7 +85,7 @@ else if(reg.equals("s_success"))
 		  <a href="#" class="list-group-itemleft active">
 			DashBoard
 		  </a>
-		  <a href="#" class="list-group-itemleft">Settings</a>
+		  <a href="HomePageSetting.jsp" class="list-group-itemleft">Home Page Settings</a>
 		  <a href="#" class="list-group-itemleft">Teachers Settings</a>
 		  <a href="#" class="list-group-itemleft">Students Settimgs</a>
 		  <a href="#" class="list-group-itemleft">sdfdsf</a>
