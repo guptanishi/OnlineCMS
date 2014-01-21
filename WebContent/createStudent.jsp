@@ -17,15 +17,17 @@
 		
 		if(from=="" || to=="")
 		{
-			alert("Empty");
+			alert("Please Enter range to create account");
 			return false;
 		}
 		return true;
 	}
+	
 	function closeDiv()
 	{
 		document.getElementById('infoDiv').style.display="none";
 	}
+	
 </script>
 </head>
 <%!
@@ -52,6 +54,11 @@
 		{
 			msg = "Student id already exits from "+rr1+" to "+rr2;
 		}
+		if(msg.equals("fail"))
+		{
+			msg="file id not uploaded properly";
+		}
+		
 	}
 	String admin_name=(String)session.getAttribute("admin_name");
 	Boolean validateResult=(Boolean)session.getAttribute("login_success");
@@ -118,7 +125,7 @@
 				  <div>
 				  <div style="float:left"><button type="submit" class="btn btn-info" >Submit</button></div>
 				  </div>
-				  
+				  <!--  <div style="position: absolute;float:left;line-height: 30px; color: #ff0000; text-align: center; width: 400px; font-weight: bold;"><%=msg %></div>-->
 				  </div>
 				</form>
 				
@@ -140,14 +147,14 @@
     <div style=" width:450px; display:inline-block;vertical-align: top;float:left; ">
 		 <div class="panel panel-default">
 			  <div class="panel-heading">
-				<h3 class="panel-title">Import Teacher's  Details</h3>
+				<h3 class="panel-title">Import Student's Details</h3>
 			  </div>
 			  <div class="panel-body">
-				<form role="form">
+				<form role="form" action="StudentRegCsv" method="post" enctype="multipart/form-data">
 					<h4>CSV File Import</h4>
 				   <div class="form-group">
 					<label for="exampleInputFile">File input</label>
-					<input type="file" id="exampleInputFile">
+					<input type="file" id="exampleInputFile" name="tfile" required>
 					
 				  </div>
 				    <button type="submit" class="btn btn-info" >Submit</button>
@@ -165,9 +172,6 @@
 </div>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script>
-$("#infoDiv").delay(5000).fadeOut(100);
-</script>
 </body>
 <% 	msg = ""; 
 	rr1="";

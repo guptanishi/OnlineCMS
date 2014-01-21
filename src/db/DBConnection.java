@@ -318,5 +318,33 @@ public class DBConnection {
 		}
 		return maxqid;
 	}
+	
+	public static ArrayList populateStudentDetails(int id)
+	{
+		ArrayList<String> arr=new ArrayList<String>();
+		String sql="select * from student where sid="+id;
+		try
+		{
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next())
+			{
+			arr.add(rs.getString(2));
+			arr.add(rs.getString(3));
+			arr.add(rs.getString(4));
+			arr.add(rs.getString(5));
+			arr.add(rs.getString(6));
+			arr.add(rs.getString(7));
+			arr.add(rs.getString(8));
+			arr.add(rs.getString(9));
+			arr.add(rs.getString(10));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return arr;
+	}
 
 }
